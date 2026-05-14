@@ -1,4 +1,4 @@
-# Woop
+# Blam!
 
 [![Downloads](https://img.shields.io/github/downloads/felixse/Woop/total.svg?label=Downloads)](https://github.com/felixse/Woop/releases/)
 [![Release](https://img.shields.io/github/release/felixse/Woop.svg?label=Release)](https://github.com/felixse/Woop/releases)
