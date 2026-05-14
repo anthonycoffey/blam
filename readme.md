@@ -54,10 +54,10 @@ A code-signing certificate is **not** required for local development. It only ma
 ```powershell
 git clone --recurse-submodules <your-fork-url> blam
 cd blam
-start Woop.sln    # then press F5 in Visual Studio
+start Blam.sln    # then press F5 in Visual Studio
 ```
 
-The repo uses a git submodule (`submodules/Boop`) whose contents are xcopied into `Woop/Assets/Scripts/` by a pre-build event. **Without the submodule the build fails.** If you cloned without `--recurse-submodules`, run:
+The repo uses a git submodule (`submodules/Boop`) whose contents are xcopied into `Blam/Assets/Scripts/` by a pre-build event. **Without the submodule the build fails.** If you cloned without `--recurse-submodules`, run:
 
 ```powershell
 git submodule update --init --recursive
@@ -65,16 +65,16 @@ git submodule update --init --recursive
 
 ## Running the dev build
 
-**In Visual Studio:** open `Woop.sln`, set `Woop` as the startup project, pick a platform (`x64` recommended on modern hardware), press **F5**.
+**In Visual Studio:** open `Blam.sln`, set `Blam` as the startup project, pick a platform (`x64` recommended on modern hardware), press **F5**.
 
 **Command line:**
 
 ```powershell
-msbuild Woop.sln /t:Restore /p:Configuration=Debug /p:Platform=x64
-msbuild Woop.sln /t:Build   /p:Configuration=Debug /p:Platform=x64
+msbuild Blam.sln /t:Restore /p:Configuration=Debug /p:Platform=x64
+msbuild Blam.sln /t:Build   /p:Configuration=Debug /p:Platform=x64
 ```
 
-The `/t:Restore` step pulls NuGet packages; you can replace both calls with `msbuild Woop.sln /p:Configuration=Debug /p:Platform=x64 /restore`.
+The `/t:Restore` step pulls NuGet packages; you can replace both calls with `msbuild Blam.sln /p:Configuration=Debug /p:Platform=x64 /restore`.
 
 To deploy the built app to your local machine without launching VS, use the *Deploy* command in VS or `msbuild /t:Deploy`. Or build a sideloadable package per the next section.
 
@@ -87,7 +87,7 @@ UWP apps ship as `.msix` (or legacy `.appx`) packages, optionally bundled across
 For private testing on your own machine or a colleague's:
 
 ```powershell
-msbuild Woop.sln /restore `
+msbuild Blam.sln /restore `
   /p:Configuration=Release `
   /p:Platform=x64 `
   /p:AppxBundle=Always `
@@ -98,16 +98,16 @@ msbuild Woop.sln /restore `
 
 (`AppxPackageSigningEnabled=False` skips signing — see *Code signing* below if you want a signed sideload package.)
 
-Output lands in `Woop/AppPackages/`. Install with:
+Output lands in `Blam/AppPackages/`. Install with:
 
 ```powershell
-Add-AppxPackage -Path .\Woop\AppPackages\<bundle-folder>\<bundle-name>.msixbundle
+Add-AppxPackage -Path .\Blam\AppPackages\<bundle-folder>\<bundle-name>.msixbundle
 ```
 
 To uninstall:
 
 ```powershell
-Get-AppxPackage *Woop* | Remove-AppxPackage
+Get-AppxPackage *Blam* | Remove-AppxPackage
 ```
 
 #### Code signing for sideload
@@ -121,22 +121,22 @@ $cert = New-SelfSignedCertificate `
   -KeyUsage DigitalSignature `
   -CertStoreLocation "Cert:\CurrentUser\My" `
   -TextExtension @("2.5.29.37={text}1.3.6.1.5.5.7.3.3", "2.5.29.19={text}")
-$cert.Thumbprint   # paste into Woop.csproj <PackageCertificateThumbprint>
+$cert.Thumbprint   # paste into Blam.csproj <PackageCertificateThumbprint>
 ```
 
 Then run the same `msbuild` command without `AppxPackageSigningEnabled=False`. To install the resulting signed package on another machine, also install the cert into `Cert:\LocalMachine\TrustedPeople`.
 
 ### B. Microsoft Store submission
 
-The `Woop.csproj` and `Woop/Package.appxmanifest` currently reference the upstream maintainer's Store identity (`53621FSApps.41283D331BF23`) and certificate thumbprint (`9B8BE8375019C354A32D6EFACC0808A7003F2432`). **Replace both** before submitting from your own account.
+The `Blam.csproj` and `Blam/Package.appxmanifest` currently reference the upstream maintainer's Store identity (`53621FSApps.41283D331BF23`) and certificate thumbprint (`9B8BE8375019C354A32D6EFACC0808A7003F2432`). **Replace both** before submitting from your own account.
 
 1. In [Partner Center](https://partner.microsoft.com/dashboard/windows/), reserve an app name and copy the Store-assigned `Identity Name` and `Publisher`.
-2. In Visual Studio, right-click `Woop` → *Publish* → *Associate App with the Store* — the wizard rewrites `Package.appxmanifest` and generates `Package.StoreAssociation.xml`.
-3. Replace `PackageCertificateThumbprint` in `Woop.csproj` with your Partner Center–issued publisher cert thumbprint.
+2. In Visual Studio, right-click `Blam` → *Publish* → *Associate App with the Store* — the wizard rewrites `Package.appxmanifest` and generates `Package.StoreAssociation.xml`.
+3. Replace `PackageCertificateThumbprint` in `Blam.csproj` with your Partner Center–issued publisher cert thumbprint.
 4. Build the Store bundle:
 
    ```powershell
-   msbuild Woop.sln /restore `
+   msbuild Blam.sln /restore `
      /p:Configuration=Release `
      /p:Platform=x64 `
      /p:AppxBundle=Always `
@@ -144,18 +144,18 @@ The `Woop.csproj` and `Woop/Package.appxmanifest` currently reference the upstre
      /p:UapAppxPackageBuildMode=StoreUpload
    ```
 
-5. Upload the resulting `.msixupload` from `Woop/AppPackages/` via Partner Center.
+5. Upload the resulting `.msixupload` from `Blam/AppPackages/` via Partner Center.
 
 ### C. GitHub Releases
 
 For distribution outside the Store. Same as the sideload build (signed), then:
 
 1. Bundle the artifacts:
-   - `Woop_<version>_x86_x64_arm64.msixbundle`
+   - `Blam_<version>_x86_x64_arm64.msixbundle`
    - The `.cer` corresponding to the signing cert (consumers will install it into `Cert:\LocalMachine\TrustedPeople`)
    - A short `INSTALL.md` with the `Add-AppxPackage` command
 2. Tag and push: `git tag v1.x.y && git push origin v1.x.y`
-3. `gh release create v1.x.y --notes-file CHANGELOG-v1.x.y.md ./Woop/AppPackages/<bundle>.msixbundle ./certs/<cert>.cer ./INSTALL.md`
+3. `gh release create v1.x.y --notes-file CHANGELOG-v1.x.y.md ./Blam/AppPackages/<bundle>.msixbundle ./certs/<cert>.cer ./INSTALL.md`
 
 > **Heads-up about the badges at the top of this README.** They currently point at upstream `felixse/Woop`. Once your fork has its first release, update them to your repo:
 >
@@ -166,17 +166,17 @@ For distribution outside the Store. Same as the sideload build (signed), then:
 
 ## Managing dependencies
 
-NuGet via `PackageReference` (see `Woop/Woop.csproj`). To add or update:
+NuGet via `PackageReference` (see `Blam/Blam.csproj`). To add or update:
 
 ```powershell
 # Restore (after clone or after editing PackageReferences):
-msbuild Woop.sln /t:Restore
+msbuild Blam.sln /t:Restore
 # or:
-nuget restore Woop.sln
+nuget restore Blam.sln
 
 # Update a specific package — easiest via Visual Studio's
 #   Solution → Manage NuGet Packages for Solution → Updates
-# Or edit the <Version> directly in Woop.csproj.
+# Or edit the <Version> directly in Blam.csproj.
 ```
 
 The Boop script library is **not** a NuGet dependency — it's the `submodules/Boop` git submodule. To pull upstream script updates:
@@ -189,14 +189,14 @@ git commit -m "chore: bump Boop submodule"
 
 ## Running tests
 
-Tests live in `Woop.Tests/` as a UWP Unit Test App (MSTest). See [`Woop.Tests/README.md`](Woop.Tests/README.md) for first-time setup and [`docs/documentation/development-standards.md`](docs/documentation/development-standards.md) for the TDD workflow.
+Tests live in `Blam.Tests/` as a UWP Unit Test App (MSTest). See [`Blam.Tests/README.md`](Blam.Tests/README.md) for first-time setup and [`docs/documentation/development-standards.md`](docs/documentation/development-standards.md) for the TDD workflow.
 
 ```powershell
 # In Visual Studio: Test → Test Explorer → Run All
 # Or from the command line:
-msbuild Woop.sln /t:Restore /p:Configuration=Debug /p:Platform=x64
-msbuild Woop.sln /t:Build   /p:Configuration=Debug /p:Platform=x64
-vstest.console.exe Woop.Tests\bin\x64\Debug\Woop.Tests.build.appxrecipe
+msbuild Blam.sln /t:Restore /p:Configuration=Debug /p:Platform=x64
+msbuild Blam.sln /t:Build   /p:Configuration=Debug /p:Platform=x64
+vstest.console.exe Blam.Tests\bin\x64\Debug\Blam.Tests.build.appxrecipe
 ```
 
 UWP tests run inside a UWP app host — slower to start than a console runner. This is normal.
@@ -205,9 +205,9 @@ UWP tests run inside a UWP app host — slower to start than a console runner. T
 
 ```
 .
-├── Woop/                 Main UWP application
-├── Woop.Tests/           MSTest UWP unit-test project
-├── Woop.sln              Visual Studio solution
+├── Blam/                 Main UWP application
+├── Blam.Tests/           MSTest UWP unit-test project
+├── Blam.sln              Visual Studio solution
 ├── submodules/Boop/      Upstream script library (git submodule)
 ├── icons/                Source assets for app icons
 ├── Screenshots/          Marketing screenshots

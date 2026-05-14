@@ -15,9 +15,9 @@ Comprehensive technical reference for the Blam! repository. For the script-autho
 
 ```
 .
-├── Woop/                 Main UWP application project
-├── Woop.Tests/           MSTest UWP unit test project
-├── Woop.sln              Visual Studio solution
+├── Blam/                 Main UWP application project
+├── Blam.Tests/           MSTest UWP unit test project
+├── Blam.sln              Visual Studio solution
 ├── submodules/Boop/      Git submodule — script source from upstream IvanMathy/Boop
 ├── icons/                Source assets for app icons
 ├── Screenshots/          Marketing/store screenshots
@@ -31,23 +31,23 @@ Comprehensive technical reference for the Blam! repository. For the script-autho
 
 ## Build pipeline
 
-The solution builds one app project (`Woop`) and one test project (`Woop.Tests`). The interesting part is the pre-build event on `Woop.csproj`:
+The solution builds one app project (`Blam`) and one test project (`Blam.Tests`). The interesting part is the pre-build event on `Blam.csproj`:
 
 ```
-del /q "$(SolutionDir)Woop\Assets\Scripts\"
-xcopy /y /e "$(SolutionDir)submodules\Boop\Boop\Boop\scripts" "$(SolutionDir)Woop\Assets\Scripts\"
+del /q "$(SolutionDir)Blam\Assets\Scripts\"
+xcopy /y /e "$(SolutionDir)submodules\Boop\Boop\Boop\scripts" "$(SolutionDir)Blam\Assets\Scripts\"
 ```
 
-This wipes `Woop/Assets/Scripts/` (which is gitignored) and repopulates it from the submodule on every build. The submodule must be initialized or the xcopy fails. The `Woop.csproj` then `<Content Include="Assets\Scripts\*" />` ships those files inside the .appx package.
+This wipes `Blam/Assets/Scripts/` (which is gitignored) and repopulates it from the submodule on every build. The submodule must be initialized or the xcopy fails. The `Blam.csproj` then `<Content Include="Assets\Scripts\*" />` ships those files inside the .appx package.
 
 Output layout follows standard UWP conventions:
 
 ```
-Woop/bin/<Platform>/<Configuration>/
-Woop/AppPackages/<Bundle name>_<Version>_Test/
+Blam/bin/<Platform>/<Configuration>/
+Blam/AppPackages/<Bundle name>_<Version>_Test/
 ```
 
-`AppxBundlePlatforms=x86|x64|arm64` in `Woop.csproj` means the produced bundle covers those three architectures. The csproj also declares per-platform configurations for `ARM` (32-bit) — these are buildable but not part of the default bundle.
+`AppxBundlePlatforms=x86|x64|arm64` in `Blam.csproj` means the produced bundle covers those three architectures. The csproj also declares per-platform configurations for `ARM` (32-bit) — these are buildable but not part of the default bundle.
 
 ## Configurations & platforms
 
@@ -62,7 +62,7 @@ Woop/AppPackages/<Bundle name>_<Version>_Test/
 
 ## Dependencies
 
-NuGet `PackageReference` style (see `Woop.csproj`). Key dependencies and what they're for:
+NuGet `PackageReference` style (see `Blam.csproj`). Key dependencies and what they're for:
 
 | Package | Version | Purpose |
 |---|---|---|
@@ -77,43 +77,43 @@ NuGet `PackageReference` style (see `Woop.csproj`). Key dependencies and what th
 | `ColorCode.Core` | 2.0.14 | Syntax highlighting in the editor |
 | `System.Text.Json` | 7.0.2 | Parsing script JSDoc metadata |
 
-Updating: edit `<Version>` in `Woop.csproj` or use the VS NuGet Package Manager. Run `nuget restore Woop.sln` or `msbuild /restore` to pull.
+Updating: edit `<Version>` in `Blam.csproj` or use the VS NuGet Package Manager. Run `nuget restore Blam.sln` or `msbuild /restore` to pull.
 
 ## Key abstractions
 
-### `Script` (`Woop/Models/Script.cs`)
+### `Script` (`Blam/Models/Script.cs`)
 
 Wraps a single user/built-in JavaScript script. Constructor parses the `/** ... **/` JSON metadata block. `Run()` lazily creates a per-script `V8ScriptEngine`, loads the `Require.js` polyfill, executes the script source (which defines a `main` function), then calls `main(execution)` with a `ScriptExecution` payload.
 
-### `ScriptExecution` (`Woop/Models/ScriptExecution.cs`)
+### `ScriptExecution` (`Blam/Models/ScriptExecution.cs`)
 
 The contract object passed to every script. Lowercase property names match the Boop JS API. See [`agents/blam.md`](../agents/blam.md) for the field-by-field shape.
 
-### `ScriptMetadata` (`Woop/Models/ScriptMetadata.cs`)
+### `ScriptMetadata` (`Blam/Models/ScriptMetadata.cs`)
 
 Holds the parsed metadata block and implements `FuseSharp.IFuseable` so the script picker can fuzzy-rank by Name (0.9) / Tags (0.6) / Description (0.2).
 
-### `ScriptManager` (`Woop/Services/ScriptManager.cs`)
+### `ScriptManager` (`Blam/Services/ScriptManager.cs`)
 
 Loads all scripts on startup. Reads built-ins from `Assets/Scripts/` via `Windows.ApplicationModel.Package.Current.InstalledLocation`, plus any user-configured custom scripts folder. Failures during script load are logged via `Debug.WriteLine` and the script is silently skipped.
 
-### `SettingsService` (`Woop/Services/SettingsService.cs`)
+### `SettingsService` (`Blam/Services/SettingsService.cs`)
 
 Persists user settings in `Windows.Storage.ApplicationData.Current.LocalSettings`.
 
-### `MainViewModel` (`Woop/ViewModels/MainViewModel.cs`)
+### `MainViewModel` (`Blam/ViewModels/MainViewModel.cs`)
 
 Top-level view model. Owns the editor state, the script picker, and the status bar.
 
 ### Custom controls
 
-- `Woop/Views/SyntaxHighlightingRichEditBox.cs` — text editor with ColorCode-powered highlighting.
-- `Woop/Views/LineNumbers.xaml(.cs)` — gutter control rendering line numbers next to the editor.
-- `Woop/Views/RtfFormatter.cs` — handles RTF round-tripping for the rich edit box.
+- `Blam/Views/SyntaxHighlightingRichEditBox.cs` — text editor with ColorCode-powered highlighting.
+- `Blam/Views/LineNumbers.xaml(.cs)` — gutter control rendering line numbers next to the editor.
+- `Blam/Views/RtfFormatter.cs` — handles RTF round-tripping for the rich edit box.
 
 ## Code signing & packaging
 
-`Woop.csproj` references certificate thumbprint `9B8BE8375019C354A32D6EFACC0808A7003F2432`. This certificate belongs to upstream maintainer "FS Apps" / Felix Seidl. A fresh clone will **not** have this cert installed. Options:
+`Blam.csproj` references certificate thumbprint `9B8BE8375019C354A32D6EFACC0808A7003F2432`. This certificate belongs to upstream maintainer "FS Apps" / Felix Seidl. A fresh clone will **not** have this cert installed. Options:
 
 1. **Local sideload, unsigned:** set `<AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>` temporarily, or pass `/p:AppxPackageSigningEnabled=False`.
 2. **Local sideload, self-signed:** generate via `New-SelfSignedCertificate -Type CodeSigningCert -Subject "CN=<your-name>"` and either install it to `Cert:\CurrentUser\My` then update the thumbprint in the csproj, or sign post-build with `signtool.exe`.
@@ -121,21 +121,9 @@ Top-level view model. Owns the editor state, the script picker, and the status b
 
 `Package.StoreAssociation.xml` is in the project but gitignored by `*.publishproj` / Store-related patterns and would be regenerated by the VS Store Association wizard against a new publisher.
 
-## Renaming reality
-
-The repo and README say "Blam!" but several artifacts still say "Woop":
-
-- Solution file: `Woop.sln`
-- Main project: `Woop/Woop.csproj`
-- Root namespace: `Woop`
-- `Package.appxmanifest` `DisplayName="Woop!"`, app description, tile short name
-- Pre-build event paths
-
-A full rename is a deliberate, scoped change (touches namespaces, manifest, Store identity, signing cert, App.xaml.cs `EntryPoint`). Don't do it incidentally — write a spec.
-
 ## Testing
 
-Tests live in `Woop.Tests/` as a UWP Unit Test App (MSTest). See [`development-standards.md`](../development-standards.md) for the TDD cycle. Caveats specific to UWP test hosting are documented there.
+Tests live in `Blam.Tests/` as a UWP Unit Test App (MSTest). See [`development-standards.md`](../development-standards.md) for the TDD cycle. Caveats specific to UWP test hosting are documented there.
 
 ## Out of scope for this reference
 

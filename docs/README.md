@@ -4,7 +4,7 @@ title: Blam! Documentation
 
 # Documentation
 
-This folder is the single source of truth for everything you can't read out of the code: specs, decisions, agent briefs, and process. If a question can be answered by `git log` or by reading `Woop/`, look there first. Otherwise it should live in here.
+This folder is the single source of truth for everything you can't read out of the code: specs, decisions, agent briefs, and process. If a question can be answered by `git log` or by reading `Blam/`, look there first. Otherwise it should live in here.
 
 ## Folder rules
 
@@ -69,7 +69,7 @@ When asking an AI agent to do work in this repo, point at the relevant spec rath
 
 - *"Implement `docs/specs/active/SPEC-007-export-rtf.md`. Use TDD per `docs/documentation/development-standards.md`."*
 - *"Investigate `docs/specs/active/BUG-014-script-picker-crash.md`. Reproduce first, write a failing test, then fix."*
-- *"Read `docs/documentation/agents/blam.md` before you touch `Woop/Services/ScriptManager.cs`."*
+- *"Read `docs/documentation/agents/blam.md` before you touch `Blam/Services/ScriptManager.cs`."*
 
 ## Source
 

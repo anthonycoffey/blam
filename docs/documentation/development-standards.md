@@ -38,15 +38,15 @@ ADRs use `proposed → accepted` (or `superseded` / `deprecated`) and **never le
 
 ## Test Driven Development
 
-Tests live in `Woop.Tests/`. The cycle is:
+Tests live in `Blam.Tests/`. The cycle is:
 
 ### RED — write a failing test
 
-Open `Woop.Tests/`, add a test that asserts the behavior the spec requires, run it, watch it fail. A test that passes on the first run is a smell — either the behavior already exists, or the test isn't testing what you think.
+Open `Blam.Tests/`, add a test that asserts the behavior the spec requires, run it, watch it fail. A test that passes on the first run is a smell — either the behavior already exists, or the test isn't testing what you think.
 
 ### GREEN — make it pass with the minimum code
 
-Add just enough code in `Woop/` to make the test green. Resist the urge to handle the next case yet — write a second failing test first.
+Add just enough code in `Blam/` to make the test green. Resist the urge to handle the next case yet — write a second failing test first.
 
 ### REFACTOR — clean up with the test as a safety net
 
@@ -63,7 +63,7 @@ Now that the bar is green, restructure. Extract helpers, rename for clarity, rem
 Blam!'s test project is a **UWP Unit Test App**, not a console runner. Two consequences:
 
 - Tests launch inside a UWP app host. First-run startup takes a few seconds; this is normal.
-- The test project targets the same Windows SDK as `Woop`. If you bump `TargetPlatformVersion` in one, bump it in the other.
+- The test project targets the same Windows SDK as `Blam`. If you bump `TargetPlatformVersion` in one, bump it in the other.
 
 **Prefer pure logic over UWP-coupled code for testability.** When a unit of work doesn't depend on `Windows.*` APIs (e.g., parsing the JSDoc metadata block in a script file), it can — and eventually should — live in a `.NET Standard` library that the UWP app references. That refactor isn't done yet; design new code so it could move there without rewrites.
 
@@ -107,6 +107,6 @@ Every PR must:
 
 ## Out of scope for this document
 
-- Code style / linting (no enforced linter yet; use editor defaults that match the existing C# style in `Woop/`)
+- Code style / linting (no enforced linter yet; use editor defaults that match the existing C# style in `Blam/`)
 - CI/CD (no workflows yet; planned in a future spec)
 - Code signing & Microsoft Store submission (see [readme.md](../../readme.md) §"Building executables")
