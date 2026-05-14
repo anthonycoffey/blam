@@ -8,10 +8,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
-using Woop.Models;
-using Woop.Services;
+using Blam.Models;
+using Blam.Services;
 
-namespace Woop.ViewModels
+namespace Blam.ViewModels
 {
     public interface IBuffer
     {

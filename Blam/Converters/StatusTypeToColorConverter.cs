@@ -2,9 +2,9 @@
 using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
-using Woop.ViewModels;
+using Blam.ViewModels;
 
-namespace Woop.Converters
+namespace Blam.Converters
 {
     public class StatusTypeToColorConverter : IValueConverter
     {

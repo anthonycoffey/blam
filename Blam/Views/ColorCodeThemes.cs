@@ -1,7 +1,7 @@
 ﻿using ColorCode.Common;
 using ColorCode.Styling;
 
-namespace Woop.Views
+namespace Blam.Views
 {
     public static class ColorCodeThemes
     {

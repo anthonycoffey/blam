@@ -1,4 +1,4 @@
-﻿namespace Woop.Models
+﻿namespace Blam.Models
 {
     public class Selection
     {

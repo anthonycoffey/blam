@@ -1,8 +1,8 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
-using Woop.Models;
+using Blam.Models;
 
-namespace Woop.ViewModels
+namespace Blam.ViewModels
 {
     public class ScriptViewModel : ObservableObject
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Woop.Services;
-using Woop.ViewModels;
+using Blam.Services;
+using Blam.ViewModels;
 
-namespace Woop.Views
+namespace Blam.Views
 {
     public sealed partial class SettingsDialog : ContentDialog
     {

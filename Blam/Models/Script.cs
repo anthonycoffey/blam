@@ -1,9 +1,9 @@
 ﻿using Microsoft.ClearScript.V8;
 using System;
 using System.Text.Json;
-using Woop.Services;
+using Blam.Services;
 
-namespace Woop.Models
+namespace Blam.Models
 {
     public class Script
     {

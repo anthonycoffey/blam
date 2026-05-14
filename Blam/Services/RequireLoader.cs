@@ -3,7 +3,7 @@ using Microsoft.ClearScript.V8;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Woop.Services
+namespace Blam.Services
 {
     public class RequireLoader
     {

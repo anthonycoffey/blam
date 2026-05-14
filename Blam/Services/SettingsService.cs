@@ -3,7 +3,7 @@ using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
-namespace Woop.Services
+namespace Blam.Services
 {
     public class SettingsService : IDisposable
     {

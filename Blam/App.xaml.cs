@@ -4,10 +4,10 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Woop.Services;
-using Woop.Views;
+using Blam.Services;
+using Blam.Views;
 
-namespace Woop
+namespace Blam
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

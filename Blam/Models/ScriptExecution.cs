@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Woop.Models
+namespace Blam.Models
 {
     [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Casing defined by Boop API")]
     public class ScriptExecution

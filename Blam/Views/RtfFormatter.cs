@@ -8,7 +8,7 @@ using System.IO;
 using System.Text;
 using Windows.UI;
 
-namespace Woop.Views
+namespace Blam.Views
 {
     public class RtfFormatter : CodeColorizerBase
     {

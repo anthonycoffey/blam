@@ -7,14 +7,14 @@ using Windows.UI.ViewManagement;
 using Windows.ApplicationModel.Core;
 using Windows.System;
 using System.Numerics;
-using Woop.ViewModels;
-using Woop.Services;
+using Blam.ViewModels;
+using Blam.Services;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Controls.Primitives;
 using Microsoft.Toolkit.Uwp.Helpers;
 
-namespace Woop.Views
+namespace Blam.Views
 {
     public sealed partial class MainPage : Page
     {

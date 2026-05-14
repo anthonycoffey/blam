@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Woop.Converters
+namespace Blam.Converters
 {
     public class ElementThemeToTextConverter : IValueConverter
     {

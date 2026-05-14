@@ -1,7 +1,7 @@
 ﻿using FuseSharp;
 using System.Collections.Generic;
 
-namespace Woop.Models
+namespace Blam.Models
 {
     public class ScriptMetadata : IFuseable
     {

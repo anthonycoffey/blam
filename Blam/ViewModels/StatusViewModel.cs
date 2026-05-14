@@ -2,7 +2,7 @@
 using System;
 using Windows.UI.Xaml;
 
-namespace Woop.ViewModels
+namespace Blam.ViewModels
 {
     public class StatusViewModel : ObservableObject
     {

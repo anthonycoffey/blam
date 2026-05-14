@@ -3,7 +3,7 @@ using ColorCode.Common;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Woop.Services
+namespace Blam.Services
 {
     public class BoopPseudoLanguage : ILanguage
     {

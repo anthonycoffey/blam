@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Woop.Actions
+namespace Blam.Actions
 {
     public class FocusAction : DependencyObject, IAction
     {

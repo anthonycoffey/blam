@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 
-namespace Woop.Views
+namespace Blam.Views
 {
     /// <summary>
     /// All credits go to https://github.com/JasonStein/Notepads/

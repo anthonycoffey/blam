@@ -4,11 +4,11 @@ using Windows.System;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Woop.Models;
-using Woop.Services;
-using Woop.ViewModels;
+using Blam.Models;
+using Blam.Services;
+using Blam.ViewModels;
 
-namespace Woop.Views
+namespace Blam.Views
 {
     public class SyntaxHighlightingRichEditBox : RichEditBox, IBuffer
     {

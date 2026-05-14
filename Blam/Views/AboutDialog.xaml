@@ -1,9 +1,9 @@
 ﻿<ContentDialog
-    x:Class="Woop.Views.AboutDialog"
+    x:Class="Blam.Views.AboutDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Woop.Views"
+    xmlns:local="using:Blam.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource SystemControlAcrylicElementBrush}"
     BorderThickness="0"

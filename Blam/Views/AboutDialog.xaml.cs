@@ -3,7 +3,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 
-namespace Woop.Views
+namespace Blam.Views
 {
     public sealed partial class AboutDialog : ContentDialog
     {

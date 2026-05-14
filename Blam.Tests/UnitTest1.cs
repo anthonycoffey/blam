@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Woop.Tests
+namespace Blam.Tests
 {
     // Sanity test. Replace with real tests as you implement specs.
     // TDD workflow lives in docs/documentation/development-standards.md.

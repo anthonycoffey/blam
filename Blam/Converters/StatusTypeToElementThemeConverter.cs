@@ -1,9 +1,9 @@
 ﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
-using Woop.ViewModels;
+using Blam.ViewModels;
 
-namespace Woop.Converters
+namespace Blam.Converters
 {
     public class StatusTypeToElementThemeConverter : IValueConverter
     {

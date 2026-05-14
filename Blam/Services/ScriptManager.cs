@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Woop.Models;
+using Blam.Models;
 using System.Linq;
 using Microsoft.ClearScript.V8;
 using Windows.Storage.AccessCache;
 
-namespace Woop.Services
+namespace Blam.Services
 {
     public class ScriptManager
     {

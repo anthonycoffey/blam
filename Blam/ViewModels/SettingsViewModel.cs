@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
-using Woop.Services;
+using Blam.Services;
 
-namespace Woop.ViewModels
+namespace Blam.ViewModels
 {
     public class SettingsViewModel : ObservableObject
     {
