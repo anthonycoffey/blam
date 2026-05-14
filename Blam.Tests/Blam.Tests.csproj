@@ -7,8 +7,8 @@
     <ProjectGuid>{B7C8E4A1-2D3F-4859-9F1A-3C5D6E7F8A9B}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Woop.Tests</RootNamespace>
-    <AssemblyName>Woop.Tests</AssemblyName>
+    <RootNamespace>Blam.Tests</RootNamespace>
+    <AssemblyName>Blam.Tests</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
@@ -134,23 +134,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
-    <Content Include="..\Woop\Assets\StoreLogo.scale-200.png">
+    <Content Include="..\Blam\Assets\StoreLogo.scale-200.png">
       <Link>Assets\StoreLogo.png</Link>
     </Content>
-    <Content Include="..\Woop\Assets\Square150x150Logo.scale-200.png">
+    <Content Include="..\Blam\Assets\Square150x150Logo.scale-200.png">
       <Link>Assets\Square150x150Logo.png</Link>
     </Content>
-    <Content Include="..\Woop\Assets\Square44x44Logo.scale-200.png">
+    <Content Include="..\Blam\Assets\Square44x44Logo.scale-200.png">
       <Link>Assets\Square44x44Logo.png</Link>
     </Content>
-    <Content Include="..\Woop\Assets\SplashScreen.scale-200.png">
+    <Content Include="..\Blam\Assets\SplashScreen.scale-200.png">
       <Link>Assets\SplashScreen.png</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Woop\Woop.csproj">
+    <ProjectReference Include="..\Blam\Blam.csproj">
       <Project>{FF2D47DE-F11F-445F-8C46-1AC5378DBC03}</Project>
-      <Name>Woop</Name>
+      <Name>Blam</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

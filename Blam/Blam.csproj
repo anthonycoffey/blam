@@ -7,8 +7,8 @@
     <ProjectGuid>{FF2D47DE-F11F-445F-8C46-1AC5378DBC03}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Woop</RootNamespace>
-    <AssemblyName>Woop</AssemblyName>
+    <RootNamespace>Blam</RootNamespace>
+    <AssemblyName>Blam</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
@@ -378,8 +378,8 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>del /q "$(SolutionDir)Woop\Assets\Scripts\"
-xcopy /y /e "$(SolutionDir)submodules\Boop\Boop\Boop\scripts" "$(SolutionDir)Woop\Assets\Scripts\"</PreBuildEvent>
+    <PreBuildEvent>del /q "$(SolutionDir)Blam\Assets\Scripts\"
+xcopy /y /e "$(SolutionDir)submodules\Boop\Boop\Boop\scripts" "$(SolutionDir)Blam\Assets\Scripts\"</PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
