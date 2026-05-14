@@ -6,14 +6,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="Woop.Tests"
-    Publisher="CN=Woop.Tests"
+    Name="Blam.Tests"
+    Publisher="CN=Blam.Tests"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="00000000-0000-0000-0000-000000000001" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Woop.Tests</DisplayName>
+    <DisplayName>Blam.Tests</DisplayName>
     <PublisherDisplayName>Blam!</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -29,12 +29,12 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="Woop.Tests.App">
+      EntryPoint="Blam.Tests.App">
       <uap:VisualElements
-        DisplayName="Woop.Tests"
+        DisplayName="Blam.Tests"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Woop.Tests"
+        Description="Blam.Tests"
         BackgroundColor="transparent">
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
