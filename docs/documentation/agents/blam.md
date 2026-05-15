@@ -146,8 +146,8 @@ Test methodology: see [development-standards.md](../development-standards.md).
 
 - **Pre-build deletes scripts.** `Blam.csproj` PreBuildEvent runs `del /q` then `xcopy` on `Assets/Scripts/`. Anything you drop into that folder by hand is destroyed at next build.
 - **Submodule is mandatory.** Build fails cryptically if `submodules/Boop` isn't initialized — the xcopy errors but the failure surface is one line in MSBuild output.
-- **Cert thumbprint is upstream-owned.** `Blam.csproj` references `9B8BE8375019C354A32D6EFACC0808A7003F2432` belonging to "FS Apps" (Felix Seidl). Local sideload builds need either your own self-signed cert or `AppxPackageSigningEnabled=False` for unsigned builds.
-- **Store identity is upstream's.** `Package.appxmanifest` has `Name="53621FSApps.41283D331BF23"` and `Publisher="CN=Felix Seidl, ..."`. Replace before any Store submission attempt.
+- **No signing cert configured.** `Blam.csproj` has `<PackageCertificateThumbprint></PackageCertificateThumbprint>` (empty). Local sideload builds need either a self-signed cert or `AppxPackageSigningEnabled=False` for unsigned builds.
+- **Store identity is a placeholder.** `Package.appxmanifest` ships `Name="REPLACE.STORE.IDENTITY.NAME"`, `Publisher="CN=REPLACE_PUBLISHER"`, zero-GUID `PhoneProductId`, and `PublisherDisplayName="REPLACE_PUBLISHER_DISPLAY_NAME"`. Replace all four with Partner Center–issued values before any Store submission attempt.
 - **Bundle platforms mismatch.** `Blam.csproj` `AppxBundlePlatforms=x86|x64|arm64` (no 32-bit ARM) even though Debug/Release configs exist for ARM. Sideload bundles include x86/x64/arm64 only.
 - **V8 native NuGet packages are per-arch.** `Microsoft.ClearScript.V8.Native.win-x86`, `-x64`, `-arm64` are referenced separately. Restoring with the wrong runtime ID can leave one missing.
 - **Property casing is intentional.** `ScriptExecution` uses lowercase property names (`isSelection`, `fullText`, etc.) to match the Boop JS API contract; suppressed with `[SuppressMessage("Style", "IDE1006")]`. Do not "fix" the casing.

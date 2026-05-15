@@ -1,0 +1,55 @@
+name: no-upstream-strings
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fail on residual upstream-Woop identity strings outside docs
+        run: |
+          set -e
+          patterns=(
+            "felixse"
+            "Felix Seidl"
+            "FS Apps"
+            "53621FSApps"
+            "e021fb52-6992-48e7-b005-9c2fe3ac65cc"
+            "9B8BE8375019C354A32D6EFACC0808A7003F2432"
+          )
+
+          # Paths where these strings are intentionally allowed:
+          #   - Blam/Assets/third-party-licenses.txt: legally-required MIT notice
+          #   - docs/, *.md: factual fork-chain attribution and historical context
+          #   - .github/workflows/no-upstream-strings.yml: this file (the allowlist itself)
+          allowlist_pathspec=(
+            ':!Blam/Assets/third-party-licenses.txt'
+            ':!docs/'
+            ':!*.md'
+            ':!.github/workflows/no-upstream-strings.yml'
+          )
+
+          failed=0
+          for pat in "${patterns[@]}"; do
+            hits=$(git grep -nI -- "$pat" "${allowlist_pathspec[@]}" || true)
+            if [ -n "$hits" ]; then
+              echo "::error::Banned upstream-Woop string found: $pat"
+              echo "$hits"
+              failed=1
+            fi
+          done
+
+          if [ "$failed" -ne 0 ]; then
+            echo
+            echo "These strings belong to upstream Woop's author (Felix Seidl)."
+            echo "If a new hit is legitimate, either rewrite the reference or"
+            echo "add the path to the allowlist in this workflow."
+            exit 1
+          fi
+
+          echo "OK: no banned upstream-identity strings in code."

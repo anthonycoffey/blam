@@ -20,7 +20,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>9B8BE8375019C354A32D6EFACC0808A7003F2432</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint></PackageCertificateThumbprint>
     <AppxPackageSigningTimestampServerUrl>http://timestamp.sectigo.com</AppxPackageSigningTimestampServerUrl>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
