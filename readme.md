@@ -1,6 +1,6 @@
 # Blam!
-[![Downloads](https://img.shields.io/github/downloads/felixse/Woop/total.svg?label=Downloads)](https://github.com/felixse/Woop/releases/)
-[![Release](https://img.shields.io/github/release/felixse/Woop.svg?label=Release)](https://github.com/felixse/Woop/releases)
+[![Downloads](https://img.shields.io/github/downloads/anthonycoffey/woop/total.svg?label=Downloads)](https://github.com/anthonycoffey/woop/releases/)
+[![Release](https://img.shields.io/github/release/anthonycoffey/woop.svg?label=Release)](https://github.com/anthonycoffey/woop/releases)
 
 <img width="320" height="320" alt="coffey codes_halftone_stipple_shaded_comic_book_onomatopoeia__20ca787f-7b69-44c1-bd0e-409e4a79aee2_2" src="https://github.com/user-attachments/assets/ea7cc9e7-b166-4eff-9692-aaeef25dd573" />
 
@@ -156,13 +156,6 @@ For distribution outside the Store. Same as the sideload build (signed), then:
    - A short `INSTALL.md` with the `Add-AppxPackage` command
 2. Tag and push: `git tag v1.x.y && git push origin v1.x.y`
 3. `gh release create v1.x.y --notes-file CHANGELOG-v1.x.y.md ./Blam/AppPackages/<bundle>.msixbundle ./certs/<cert>.cer ./INSTALL.md`
-
-> **Heads-up about the badges at the top of this README.** They currently point at upstream `felixse/Woop`. Once your fork has its first release, update them to your repo:
->
-> ```
-> [![Downloads](https://img.shields.io/github/downloads/<your-user>/<your-repo>/total.svg?label=Downloads)](https://github.com/<your-user>/<your-repo>/releases/)
-> [![Release](https://img.shields.io/github/release/<your-user>/<your-repo>.svg?label=Release)](https://github.com/<your-user>/<your-repo>/releases)
-> ```
 
 ## Managing dependencies
 
