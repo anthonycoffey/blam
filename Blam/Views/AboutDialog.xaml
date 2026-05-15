@@ -51,7 +51,7 @@
                 <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind Version}" />
             </StackPanel>
 
-            <HyperlinkButton Content="GitHub" NavigateUri="https://github.com/anthonycoffey/woop" />
+            <HyperlinkButton Content="GitHub" NavigateUri="https://github.com/anthonycoffey/blam" />
             <HyperlinkButton Click="LicensesClicked" Content="3rd party licenses" />
             <HyperlinkButton Content="Script icons by icons8.com" NavigateUri="https://icons8.com" />
         </StackPanel>

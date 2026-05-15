@@ -56,7 +56,7 @@ It wipes `Blam/Assets/Scripts/` (gitignored) and repopulates from the submodule 
 
 ### Code signing
 
-`Blam.csproj` references certificate thumbprint `9B8BE8375019C354A32D6EFACC0808A7003F2432` — that's upstream maintainer "FS Apps" / Felix Seidl's cert, not yours. A fresh clone does **not** have this cert installed.
+`Blam.csproj` ships with an empty `<PackageCertificateThumbprint>` (the upstream maintainer's thumbprint was scrubbed during the Woop → Blam port). A fresh clone has no signing cert configured.
 
 Three ways to deal with it:
 
@@ -82,13 +82,17 @@ $cert.Thumbprint   # paste into Blam.csproj <PackageCertificateThumbprint>
 
 ### Microsoft Store identity
 
-`Blam/Package.appxmanifest` has:
+`Blam/Package.appxmanifest` ships with `REPLACE_*` placeholders:
 
 ```xml
-<Identity Name="53621FSApps.41283D331BF23" Publisher="CN=Felix Seidl, O=Felix Seidl, S=Bayern, C=DE" />
+<Identity Name="REPLACE.STORE.IDENTITY.NAME" Publisher="CN=REPLACE_PUBLISHER" Version="1.0.0.0" />
+<mp:PhoneIdentity PhoneProductId="00000000-0000-0000-0000-000000000000" .../>
+<Properties>
+  <PublisherDisplayName>REPLACE_PUBLISHER_DISPLAY_NAME</PublisherDisplayName>
+</Properties>
 ```
 
-This identity belongs to the upstream maintainer's Store publisher account. **Do not submit a build with these values to the Store from your account** — it will be rejected or, worse, conflict. Replace `Name` and `Publisher` with values from your own Partner Center registration before any Store submission.
+Reserve an app name in [Partner Center](https://partner.microsoft.com/dashboard/windows/) and replace all four fields (plus the `PhoneProductId` GUID) with the Store-assigned values before any Store submission. The simplest path is VS → right-click `Blam` → *Publish* → *Associate App with the Store*, which rewrites the manifest for you.
 
 ## Development workflow
 

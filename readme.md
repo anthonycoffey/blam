@@ -1,6 +1,6 @@
 # Blam!
-[![Downloads](https://img.shields.io/github/downloads/anthonycoffey/woop/total.svg?label=Downloads)](https://github.com/anthonycoffey/woop/releases/)
-[![Release](https://img.shields.io/github/release/anthonycoffey/woop.svg?label=Release)](https://github.com/anthonycoffey/woop/releases)
+[![Downloads](https://img.shields.io/github/downloads/anthonycoffey/blam/total.svg?label=Downloads)](https://github.com/anthonycoffey/blam/releases/)
+[![Release](https://img.shields.io/github/release/anthonycoffey/blam.svg?label=Release)](https://github.com/anthonycoffey/blam/releases)
 
 <img width="320" height="320" alt="coffey codes_halftone_stipple_shaded_comic_book_onomatopoeia__20ca787f-7b69-44c1-bd0e-409e4a79aee2_2" src="https://github.com/user-attachments/assets/ea7cc9e7-b166-4eff-9692-aaeef25dd573" />
 
@@ -128,7 +128,7 @@ Then run the same `msbuild` command without `AppxPackageSigningEnabled=False`. T
 
 ### B. Microsoft Store submission
 
-The `Blam.csproj` and `Blam/Package.appxmanifest` currently reference the upstream maintainer's Store identity (`53621FSApps.41283D331BF23`) and certificate thumbprint (`9B8BE8375019C354A32D6EFACC0808A7003F2432`). **Replace both** before submitting from your own account.
+`Blam.csproj` ships with an empty `<PackageCertificateThumbprint>` and `Blam/Package.appxmanifest` ships with `REPLACE_*` placeholders for `Identity Name`, `Publisher`, `PhoneProductId`, and `PublisherDisplayName`. Fill **all of them in** before submitting to the Store from your account.
 
 1. In [Partner Center](https://partner.microsoft.com/dashboard/windows/), reserve an app name and copy the Store-assigned `Identity Name` and `Publisher`.
 2. In Visual Studio, right-click `Blam` → *Publish* → *Associate App with the Store* — the wizard rewrites `Package.appxmanifest` and generates `Package.StoreAssociation.xml`.
