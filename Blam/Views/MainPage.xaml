@@ -1,0 +1,242 @@
+﻿<Page
+    x:Class="Blam.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:actions="using:Blam.Actions"
+    xmlns:converters="using:Blam.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkitConverters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:viewModels="using:Blam.ViewModels"
+    xmlns:views="using:Blam.Views"
+    x:Name="Root"
+    Padding="0"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Loaded="Page_Loaded"
+    Unloaded="Page_Unloaded"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <converters:IconNameToIconConverter x:Key="IconNameToIconConverter" />
+        <converters:StatusTypeToColorConverter x:Key="StatusTypeToColorConverter" />
+        <converters:StatusTypeToElementThemeConverter x:Key="StatusTypeToElementThemeConverter" />
+        <toolkitConverters:BoolToObjectConverter x:Key="SelectedToColoverConverter">
+            <toolkitConverters:BoolToObjectConverter.TrueValue>
+                <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
+            </toolkitConverters:BoolToObjectConverter.TrueValue>
+            <toolkitConverters:BoolToObjectConverter.FalseValue>
+                <SolidColorBrush Color="Transparent" />
+            </toolkitConverters:BoolToObjectConverter.FalseValue>
+        </toolkitConverters:BoolToObjectConverter>
+        <toolkitConverters:BoolToVisibilityConverter
+            x:Key="InvertedBoolToVisibilityConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
+        <toolkitConverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent" />
+        <Thickness x:Key="TextControlBorderThemeThicknessFocused">0,0,0,0</Thickness>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Height="48" HorizontalAlignment="Stretch">
+            <Border
+                Width="200"
+                Padding="5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{x:Bind ViewModel.Status.Type, Mode=OneWay, Converter={StaticResource StatusTypeToColorConverter}}"
+                CornerRadius="5"
+                ToolTipService.ToolTip="{x:Bind ViewModel.Status.Text, Mode=OneWay}">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    RequestedTheme="{x:Bind ViewModel.Status.Type, Mode=OneWay, Converter={StaticResource StatusTypeToElementThemeConverter}}"
+                    Text="{x:Bind ViewModel.Status.Text, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis" />
+            </Border>
+
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                VerticalAlignment="Top"
+                IsTabStop="False"
+                Style="{StaticResource TitleBarButtonStyle}">
+                <Button.Flyout>
+                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.ClearCommand}" Text="Clear">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="N" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.OpenPickerCommand}"
+                            Text="Open Picker"
+                            Visibility="{x:Bind ViewModel.PickerOpened, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="B" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.ClosePickerCommand}"
+                            Text="Close Picker"
+                            Visibility="{x:Bind ViewModel.PickerOpened, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="Escape" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.ReRunLastScriptCommand}" Text="Re-execute Last Script">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="B" Modifiers="Control,Shift" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.ReloadScriptsCommand}" Text="Reload Scripts">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="R" Modifiers="Control,Shift" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.GetMoreScriptsCommand}" Text="Get more scripts..." />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Click="OnSettingsTapped" Text="Settings">
+                            <MenuFlyoutItem.Icon>
+                                <SymbolIcon Symbol="Setting" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="About"  Click="OnAboutClicked"/>
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Text="Quit">
+                            <MenuFlyoutItem.Icon>
+                                <SymbolIcon Symbol="Clear" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+                <Button.Content>
+                    <Viewbox Width="16" Height="16">
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE700;" />
+                    </Viewbox>
+                </Button.Content>
+            </Button>
+            <Rectangle
+                x:Name="TitleBar"
+                Grid.Column="1"
+                Fill="Transparent" />
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <views:LineNumbers x:Name="LineNumbers" Grid.Column="0" />
+            <Border BorderThickness="1 1 0 0" Grid.Column="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="8 0 0 0">
+                <views:SyntaxHighlightingRichEditBox
+                x:Name="Buffer"
+                Padding="6,6,6,6"
+                BorderThickness="0"
+                FontFamily="Consolas"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                SelectionHighlightColorWhenNotFocused="{ThemeResource SystemColorControlAccentBrush}" >
+                    <views:SyntaxHighlightingRichEditBox.Resources>
+                        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent" />
+                    </views:SyntaxHighlightingRichEditBox.Resources>
+                </views:SyntaxHighlightingRichEditBox>
+            </Border>
+
+        </Grid>
+
+        <Border
+            x:Name="SelectorBackdrop"
+            Grid.Row="1"
+            Background="Transparent"
+            IsHitTestVisible="True"
+            Visibility="{x:Bind ViewModel.PickerOpened, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Popup x:Name="SelectorPopup" IsOpen="{x:Bind ViewModel.PickerOpened, Mode=OneWay}">
+                <Border Width="{Binding ActualWidth, ElementName=SelectorBackdrop, Mode=OneWay}">
+                    <StackPanel
+                        x:Name="Selector"
+                        Margin="20"
+                        HorizontalAlignment="Stretch"
+                        Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                        BorderBrush="{ThemeResource SearchBoxDisabledBorderThemeBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4">
+                        <StackPanel.Shadow>
+                            <ThemeShadow />
+                        </StackPanel.Shadow>
+                        <TextBox
+                            x:Name="Query"
+                            Background="Transparent"
+                            FontSize="24"
+                            KeyDown="Query_KeyDown"
+                            PlaceholderText="Start typing..."
+                            BorderThickness="0"
+                            Text="{x:Bind ViewModel.Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <Interactivity:Interaction.Behaviors>
+                                <Core:DataTriggerBehavior Binding="{x:Bind ViewModel.PickerOpened, Mode=OneWay}" Value="true">
+                                    <actions:FocusAction x:Name="FocusAction" />
+                                </Core:DataTriggerBehavior>
+                            </Interactivity:Interaction.Behaviors>
+                            <TextBox.Resources>
+                                <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent" />
+                                <SolidColorBrush x:Key="TextControlBackground" Color="Transparent" />
+                                <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent" />
+                            </TextBox.Resources>
+                        </TextBox>
+                        <ListView
+                            x:Name="Scripts"
+                            MaxHeight="300"
+                            Background="Transparent"
+                            ItemsSource="{x:Bind ViewModel.FilteredScripts, Mode=OneWay}"
+                            SelectedItem="{x:Bind ViewModel.SelectedScript, Mode=TwoWay}"
+                            SelectionChanged="ListBox_SelectionChanged"
+                            SelectionMode="Single"
+                            UseSystemFocusVisuals="False">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="viewModels:ScriptViewModel">
+                                    <Grid DoubleTapped="OnScriptDoubleTapped">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            Width="32"
+                                            Height="32"
+                                            Margin="0,0,5,0"
+                                            Opacity="0.7"
+                                            Source="{x:Bind Script.Metadata.Icon, Converter={StaticResource IconNameToIconConverter}}" />
+                                        <StackPanel Grid.Column="1" Margin="6">
+                                            <TextBlock FontSize="24" Text="{x:Bind Script.Metadata.Name}" />
+                                            <TextBlock
+                                                Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                                                Text="{x:Bind Script.Metadata.Description}"
+                                                TextTrimming="CharacterEllipsis"
+                                                ToolTipService.ToolTip="{x:Bind Script.Metadata.Description}" />
+                                        </StackPanel>
+                                    </Grid>
+
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel>
+                                        <StackPanel.ChildrenTransitions>
+                                            <TransitionCollection />
+                                        </StackPanel.ChildrenTransitions>
+                                    </StackPanel>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </Border>
+    </Grid>
+</Page>

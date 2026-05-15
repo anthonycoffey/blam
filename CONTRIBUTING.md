@@ -15,7 +15,7 @@ Thanks for the interest. This file is the dense, "need to know" guide — read i
 
 ## Cloning
 
-**Read this once or your first build will fail in a confusing way.** The repo depends on a git submodule (`submodules/Boop`) whose contents are xcopied into `Woop/Assets/Scripts/` by a pre-build event. Without the submodule, the xcopy fails and you get a cryptic MSBuild error.
+**Read this once or your first build will fail in a confusing way.** The repo depends on a git submodule (`submodules/Boop`) whose contents are xcopied into `Blam/Assets/Scripts/` by a pre-build event. Without the submodule, the xcopy fails and you get a cryptic MSBuild error.
 
 ```powershell
 # Preferred — clone with submodules in one shot:
@@ -36,8 +36,8 @@ git commit -m "chore: bump Boop submodule"
 
 ## First build
 
-1. Open `Woop.sln` in Visual Studio.
-2. Set the startup project to `Woop` (right-click → *Set as Startup Project*).
+1. Open `Blam.sln` in Visual Studio.
+2. Set the startup project to `Blam` (right-click → *Set as Startup Project*).
 3. Pick a platform: `x64` if you have a modern x86_64 machine, `ARM64` for Surface Pro X-class hardware. `x86` works for everything but builds in 32-bit mode.
 4. Press **F5**.
 
@@ -45,25 +45,25 @@ git commit -m "chore: bump Boop submodule"
 
 ### The submodule + pre-build event
 
-`Woop.csproj` has a pre-build event:
+`Blam.csproj` has a pre-build event:
 
 ```
-del /q "$(SolutionDir)Woop\Assets\Scripts\"
-xcopy /y /e "$(SolutionDir)submodules\Boop\Boop\Boop\scripts" "$(SolutionDir)Woop\Assets\Scripts\"
+del /q "$(SolutionDir)Blam\Assets\Scripts\"
+xcopy /y /e "$(SolutionDir)submodules\Boop\Boop\Boop\scripts" "$(SolutionDir)Blam\Assets\Scripts\"
 ```
 
-It wipes `Woop/Assets/Scripts/` (gitignored) and repopulates from the submodule on every build. **Implication:** dropping a JS file into `Woop/Assets/Scripts/` by hand is pointless — it'll be deleted next build. To add a custom built-in script, contribute it upstream to [`IvanMathy/Boop`](https://github.com/IvanMathy/Boop), or use the custom scripts folder feature (Settings → Custom scripts folder).
+It wipes `Blam/Assets/Scripts/` (gitignored) and repopulates from the submodule on every build. **Implication:** dropping a JS file into `Blam/Assets/Scripts/` by hand is pointless — it'll be deleted next build. To add a custom built-in script, contribute it upstream to [`IvanMathy/Boop`](https://github.com/IvanMathy/Boop), or use the custom scripts folder feature (Settings → Custom scripts folder).
 
 ### Code signing
 
-`Woop.csproj` references certificate thumbprint `9B8BE8375019C354A32D6EFACC0808A7003F2432` — that's upstream maintainer "FS Apps" / Felix Seidl's cert, not yours. A fresh clone does **not** have this cert installed.
+`Blam.csproj` references certificate thumbprint `9B8BE8375019C354A32D6EFACC0808A7003F2432` — that's upstream maintainer "FS Apps" / Felix Seidl's cert, not yours. A fresh clone does **not** have this cert installed.
 
 Three ways to deal with it:
 
 **A. Build unsigned (simplest for local sideload):**
 
 ```powershell
-msbuild Woop.sln /p:Configuration=Debug /p:Platform=x64 /p:AppxPackageSigningEnabled=False /restore
+msbuild Blam.sln /p:Configuration=Debug /p:Platform=x64 /p:AppxPackageSigningEnabled=False /restore
 ```
 
 **B. Generate your own self-signed dev cert:**
@@ -75,14 +75,14 @@ $cert = New-SelfSignedCertificate `
   -KeyUsage DigitalSignature `
   -CertStoreLocation "Cert:\CurrentUser\My" `
   -TextExtension @("2.5.29.37={text}1.3.6.1.5.5.7.3.3", "2.5.29.19={text}")
-$cert.Thumbprint   # paste into Woop.csproj <PackageCertificateThumbprint>
+$cert.Thumbprint   # paste into Blam.csproj <PackageCertificateThumbprint>
 ```
 
 **C. Use a real publisher cert** (Microsoft Store via Partner Center, or a commercial CA). Required if you plan to ship.
 
 ### Microsoft Store identity
 
-`Woop/Package.appxmanifest` has:
+`Blam/Package.appxmanifest` has:
 
 ```xml
 <Identity Name="53621FSApps.41283D331BF23" Publisher="CN=Felix Seidl, O=Felix Seidl, S=Bayern, C=DE" />
@@ -117,21 +117,21 @@ Trivial changes (typo, dependency bump, one-line fix) can skip the spec — but 
 
 ### 2. Write the failing test first
 
-Open `Woop.Tests/`, add a test that asserts the behavior your spec requires, run it, watch it fail. RED.
+Open `Blam.Tests/`, add a test that asserts the behavior your spec requires, run it, watch it fail. RED.
 
 ```csharp
 [TestMethod]
 public void Selection_Uppercase_Transforms()
 {
-    // Arrange / Act / Assert against the public surface of Woop.
+    // Arrange / Act / Assert against the public surface of Blam.
 }
 ```
 
-Internal types in `Woop` are visible to `Woop.Tests` via `InternalsVisibleTo`. Prefer testing public APIs where possible.
+Internal types in `Blam` are visible to `Blam.Tests` via `InternalsVisibleTo`. Prefer testing public APIs where possible.
 
 ### 3. Make it pass with minimum code
 
-Add just enough to `Woop/` to make the test green. Resist handling edge cases yet — add another failing test first.
+Add just enough to `Blam/` to make the test green. Resist handling edge cases yet — add another failing test first.
 
 ### 4. Refactor
 
@@ -177,7 +177,7 @@ Before requesting review:
 
 - [ ] Spec ID linked in the PR description (`Implements SPEC-NNN` / `Fixes BUG-NNN`)
 - [ ] Tests added or updated for any behavior change, or a one-line note explaining why none were added
-- [ ] `Woop.Tests` test suite passes locally
+- [ ] `Blam.Tests` test suite passes locally
 - [ ] User-facing docs (`readme.md`, `CONTRIBUTING.md`, agent brief) updated if behavior is user-visible
 - [ ] No cert thumbprints, Store identities, or secrets leaked into the diff
 - [ ] `submodules/Boop` pointer not regressed (check `git diff submodules/Boop` is empty unless you meant to bump it)
@@ -203,7 +203,7 @@ For one-off / personal scripts that shouldn't be upstreamed: drop the `.js` file
 
 ### C. Blam!-only built-in script
 
-**Not currently supported as a one-step contribution.** `Woop/Assets/Scripts/` is wiped by the pre-build xcopy. Shipping a Blam!-only built-in script requires modifying the pre-build event to merge from a second source folder — propose this via `/new-spec` before doing it.
+**Not currently supported as a one-step contribution.** `Blam/Assets/Scripts/` is wiped by the pre-build xcopy. Shipping a Blam!-only built-in script requires modifying the pre-build event to merge from a second source folder — propose this via `/new-spec` before doing it.
 
 ### Script anatomy
 
@@ -233,7 +233,7 @@ function main(input) {
 }
 ```
 
-Metadata is parsed with `AllowTrailingCommas=true` and case-insensitive keys, but the JSON must still be valid (no single quotes, no unquoted keys). Available `icon` names match PNGs in `Woop/Assets/dark/` and `Woop/Assets/light/` (`flask`, `dice`, `globe`, `flip`, `table`, etc.).
+Metadata is parsed with `AllowTrailingCommas=true` and case-insensitive keys, but the JSON must still be valid (no single quotes, no unquoted keys). Available `icon` names match PNGs in `Blam/Assets/dark/` and `Blam/Assets/light/` (`flask`, `dice`, `globe`, `flip`, `table`, etc.).
 
 The script API is documented in full in [`docs/documentation/agents/blam.md`](docs/documentation/agents/blam.md).
 
@@ -251,4 +251,4 @@ Blam! is GPLv3 (see [`LICENSE`](LICENSE)). By contributing, you agree your contr
 
 ## Questions
 
-Open an issue on the repo, or reach the maintainer via the contact listed in `Woop/Package.appxmanifest`. (Update this section with your preferred contact channel once your fork has its own home.)
+Open an issue on the repo, or reach the maintainer via the contact listed in `Blam/Package.appxmanifest`. (Update this section with your preferred contact channel once your fork has its own home.)

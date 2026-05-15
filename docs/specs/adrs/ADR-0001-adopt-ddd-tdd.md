@@ -17,8 +17,8 @@ This repository is a fork of the upstream `Woop` project (a Windows port of Boop
 
 - No `CONTRIBUTING.md`, no `docs/`, no architecture record.
 - No test project of any kind.
-- A non-obvious build that silently fails if the `submodules/Boop` git submodule isn't initialized (the pre-build event in `Woop.csproj` xcopies scripts from it).
-- Code-signing and Microsoft Store identity baked into `Woop.csproj` and `Package.appxmanifest` that belong to the upstream maintainer.
+- A non-obvious build that silently fails if the `submodules/Boop` git submodule isn't initialized (the pre-build event in `Blam.csproj` xcopies scripts from it).
+- Code-signing and Microsoft Store identity baked into `Blam.csproj` and `Package.appxmanifest` that belong to the upstream maintainer.
 
 Before any feature or fix work happens, the repo needs a workflow that prevents the next contributor (human or AI agent) from re-discovering these traps. It also needs a way to lock in non-obvious behavior with executable tests so changes that violate it fail loudly.
 
@@ -28,7 +28,7 @@ This repo adopts:
 
 1. **Document Driven Development (DDD)** per [SPEC-DDD-001](https://github.com/coffeegrind123/nextjs-flask/blob/main/docs/specs/plans/SPEC-DDD-001-ddd-initialization.md). Every non-trivial change starts with a spec in `docs/specs/active/`. The spec lifecycle is `draft → ready → in-progress → review-pending → complete`. Specs are written before code and reviewed like code.
 
-2. **Test Driven Development (TDD)** with [MSTest](https://learn.microsoft.com/visualstudio/test/getting-started-with-unit-testing) hosted in a UWP Unit Test App at `Woop.Tests/`. The cycle is RED (write failing test) → GREEN (minimum code to pass) → REFACTOR (clean up with the test as a safety net).
+2. **Test Driven Development (TDD)** with [MSTest](https://learn.microsoft.com/visualstudio/test/getting-started-with-unit-testing) hosted in a UWP Unit Test App at `Blam.Tests/`. The cycle is RED (write failing test) → GREEN (minimum code to pass) → REFACTOR (clean up with the test as a safety net).
 
 The scaffold lives at:
 
@@ -36,14 +36,14 @@ The scaffold lives at:
 - `docs/specs/` — `plans/`, `active/`, `adrs/`, `archive/`
 - `docs/documentation/` — operational docs including `development-standards.md`
 - `.claude/commands/` — `/new-spec`, `/new-bug`, `/new-adr`, `/new-agent-brief` slash commands
-- `Woop.Tests/` — MSTest UWP Unit Test App, referencing `Woop` with `InternalsVisibleTo`
+- `Blam.Tests/` — MSTest UWP Unit Test App, referencing `Blam` with `InternalsVisibleTo`
 
 ## Consequences
 
 ### Positive
 
 - New contributors have a single entry point: `docs/README.md` → `CONTRIBUTING.md` → spec → branch → PR.
-- Behavior is defended by tests, not lore. UWP regressions that today need manual click-through start surfacing in `Woop.Tests/`.
+- Behavior is defended by tests, not lore. UWP regressions that today need manual click-through start surfacing in `Blam.Tests/`.
 - AI agents have anchor documents (`docs/documentation/agents/blam.md`) instead of inferring from code.
 - Decisions like this one are recorded in `specs/adrs/` and survive the next "why did we…?" question.
 
